@@ -1,0 +1,20 @@
+class a{
+void hello(){
+ System.out.println("parent class");
+ }
+ }
+ class b extends a{
+ void hello1(){
+ System.out.println("child class");
+ }
+ }
+ class inheritence{
+ public static void main(String[] args)
+ {
+ b sc=new b();
+ sc.hello();
+ sc.hello1();
+ }
+ }
+ 
+ 
