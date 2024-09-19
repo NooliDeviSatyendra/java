@@ -1,0 +1,19 @@
+
+class A{
+public void msg()
+ {
+	System.out.println("Good Morning");
+ }
+}
+class b extends A{
+ public  void msg()
+ {
+     super.msg();
+     System.out.println("Good Afternoon");
+  }
+  public static void main(String []args)
+  {
+  		b obj = new b();
+  		obj.msg();
+  }
+}
