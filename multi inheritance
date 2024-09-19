@@ -1,0 +1,27 @@
+class a{
+void hello(){
+ System.out.println("parent class");
+ }
+ }
+ class b extends a{
+ void hello1(){
+ System.out.println("2 parent class");
+ }
+ }
+ class c extends b{
+ void hello2(){
+ System.out.println("child class");
+ }
+ }
+ 
+ class multi{
+ public static void main(String[] args)
+ {
+ c sc=new c();
+ sc.hello();
+ sc.hello1();
+ sc.hello2();
+ }
+ }
+ 
+ 
