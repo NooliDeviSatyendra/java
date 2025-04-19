@@ -1,0 +1,103 @@
+#include <stdio.h>
+
+int main() {
+    int p[10], bt[10], wt[10], tat[10];
+    int n;
+    float tatavg = 0, wtavg = 0;
+
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    printf("Enter the burst time of %d processes:\n", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &bt[i]);
+        p[i] = i; // process ID
+    }
+
+    // Sort by burst time (Shortest Job First - SJF)
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (bt[j] > bt[j + 1]) {
+                // Swap burst times
+                int temp = bt[j];
+                bt[j] = bt[j + 1];
+                bt[j + 1] = temp;
+
+                // Swap process IDs
+                temp = p[j];
+                p[j] = p[j + 1];
+                p[j + 1] = temp;
+            }
+        }
+    }
+
+    // Waiting time
+    wt[0] = 0;
+    for (int i = 1; i < n; i++) {
+        wt[i] = wt[i - 1] + bt[i - 1];
+    }
+
+    // Turnaround time
+    for (int i = 0; i < n; i++) {
+        tat[i] = wt[i] + bt[i];
+        wtavg += wt[i];
+        tatavg += tat[i];
+    }
+
+    // Output
+    for (int i = 0; i < n; i++) {
+        printf("Process %d: Burst Time = %d, Waiting Time = %d, Turnaround Time = %d\n",
+               p[i], bt[i], wt[i], tat[i]);
+    }
+
+    printf("Average Waiting Time = %.2f\n", wtavg / n);
+    printf("Average Turnaround Time = %.2f\n", tatavg / n);
+
+    return 0;
+}
+
+
+
+
+
+
+vivek
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_LINE 1024
+
+void simulate_cp(const char *src, const char *dest) {
+    FILE *fsrc = fopen(src, "r"), *fdest = fopen(dest, "w");
+    if (!fsrc || !fdest) {
+        perror("File error");
+        if (fsrc) fclose(fsrc);
+        return;
+    }
+    char ch;
+    while ((ch = fgetc(fsrc)) != EOF) fputc(ch, fdest);
+    printf("Copied from %s to %s\n", src, dest);
+    fclose(fsrc); fclose(fdest);
+}
+
+void simulate_grep(const char *keyword, const char *file) {
+    FILE *f = fopen(file, "r");
+    if (!f) { perror("File error"); return; }
+    char line[MAX_LINE];
+    while (fgets(line, MAX_LINE, f)) if (strstr(line, keyword)) printf("%s", line);
+    fclose(f);
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 4) {
+        printf("Usage:\n  %s cp <src> <dest>\n  %s grep <word> <file>\n", argv[0], argv[0]);
+        return 1;
+    }
+
+    if (!strcmp(argv[1], "cp")) simulate_cp(argv[2], argv[3]);
+    else if (!strcmp(argv[1], "grep")) simulate_grep(argv[2], argv[3]);
+    else printf("Invalid command. Use 'cp' or 'grep'.\n");
+
+    return 0;
+}
